@@ -4,9 +4,8 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
-// TODO CheckStyle: Wrong lexicographical order for 'java.util.HashMap' import (remove this comment once resolved)
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -14,9 +13,8 @@ import java.util.Map;
  */
 public class CountryCodeConverter {
 
-    // TODO Task: pick appropriate instance variable(s) to store the data necessary for this class
-    private Map<String, String> codeToCountry;
-    private Map<String, String> countryToCode;
+    private Map<String, String> codeToCountry; // Map for storing country code to name
+    private Map<String, String> countryToCode; // Map for storing country name to code
 
     /**
      * Default constructor which will load the country codes from "country-codes.txt"
@@ -32,8 +30,6 @@ public class CountryCodeConverter {
      * @throws RuntimeException if the resource file can't be loaded properly
      */
     public CountryCodeConverter(String filename) {
-
-
         try {
             List<String> lines = Files.readAllLines(Paths.get(getClass()
                     .getClassLoader().getResource(filename).toURI()));
@@ -41,24 +37,24 @@ public class CountryCodeConverter {
             codeToCountry = new HashMap<>();
             countryToCode = new HashMap<>();
 
+            // Iterate over lines starting from the second line to skip the header row
             for (int i = 1; i < lines.size(); i++) {
-                String[] parts = lines.get(i).split("\t");
+                String[] parts = lines.get(i).split("\t"); // Tab-separated values
 
                 if (parts.length >= 2) {
-                    String code = parts[0].trim();
-                    String name = parts[1].trim();
+                    // Extracting name and code based on expected column order
+                    String name = parts[0].trim();   // Country name in the first column
+                    String code = parts[1].trim();   // Country code in the second column
 
-                    // Populate the maps
+                    // Preserve exact name including parentheses
                     codeToCountry.put(code, name);
                     countryToCode.put(name, code);
                 }
             }
 
+        } catch (IOException | URISyntaxException ex) {
+            throw new RuntimeException("Error reading file: " + filename, ex);
         }
-        catch (IOException | URISyntaxException ex) {
-            throw new RuntimeException(ex);
-        }
-
     }
 
     /**
@@ -67,7 +63,6 @@ public class CountryCodeConverter {
      * @return the name of the country corresponding to the code
      */
     public String fromCountryCode(String code) {
-        // TODO Task: update this code to use an instance variable to return the correct value
         return codeToCountry.getOrDefault(code, "Unknown Country Code");
     }
 
@@ -77,7 +72,6 @@ public class CountryCodeConverter {
      * @return the 3-letter code of the country
      */
     public String fromCountry(String country) {
-        // TODO Task: update this code to use an instance variable to return the correct value
         return countryToCode.getOrDefault(country, "Unknown Country Name");
     }
 
@@ -86,7 +80,6 @@ public class CountryCodeConverter {
      * @return how many countries are included in this code converter.
      */
     public int getNumCountries() {
-        // TODO Task: update this code to use an instance variable to return the correct value
         return codeToCountry.size();
     }
 }
