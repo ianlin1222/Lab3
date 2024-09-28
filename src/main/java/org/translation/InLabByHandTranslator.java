@@ -45,7 +45,6 @@ public class InLabByHandTranslator implements Translator {
      */
     @Override
     public String translate(String country, String language) {
-
         if (!CANADA.equals(country)) {
             return null;
         }

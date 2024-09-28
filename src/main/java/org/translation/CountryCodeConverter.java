@@ -13,8 +13,8 @@ import java.util.Map;
  */
 public class CountryCodeConverter {
 
-    private Map<String, String> codeToCountry; // Map for storing country code to name
-    private Map<String, String> countryToCode; // Map for storing country name to code
+    private final Map<String, String> codeToCountry;
+    private final Map<String, String> countryToCode;
 
     /**
      * Default constructor which will load the country codes from "country-codes.txt"
@@ -26,25 +26,30 @@ public class CountryCodeConverter {
 
     /**
      * Overloaded constructor which allows us to specify the filename to load the country code data from.
+     *
      * @param filename the name of the file in the resources folder to load the data from
      * @throws RuntimeException if the resource file can't be loaded properly
      */
     public CountryCodeConverter(String filename) {
-        try {
-            List<String> lines = Files.readAllLines(Paths.get(getClass()
-                    .getClassLoader().getResource(filename).toURI()));
+        codeToCountry = new HashMap<>();
+        countryToCode = new HashMap<>();
 
-            codeToCountry = new HashMap<>();
-            countryToCode = new HashMap<>();
+        try {
+            if (getClass().getClassLoader().getResource(filename) == null) {
+                throw new IOException("Resource file not found: " + filename);
+            }
+
+            List<String> lines = Files.readAllLines(
+                    Paths.get(getClass().getClassLoader().getResource(filename).toURI()));
 
             // Iterate over lines starting from the second line to skip the header row
             for (int i = 1; i < lines.size(); i++) {
-                String[] parts = lines.get(i).split("\t"); // Tab-separated values
+                String[] parts = lines.get(i).split("\t");
 
                 if (parts.length >= 2) {
                     // Extracting name and code based on expected column order
-                    String name = parts[0].trim();   // Country name in the first column
-                    String code = parts[1].trim();   // Country code in the second column
+                    String name = parts[0].trim();
+                    String code = parts[1].trim();
 
                     // Preserve exact name including parentheses
                     codeToCountry.put(code, name);
@@ -59,6 +64,7 @@ public class CountryCodeConverter {
 
     /**
      * Returns the name of the country for the given country code.
+     *
      * @param code the 3-letter code of the country
      * @return the name of the country corresponding to the code
      */
@@ -68,6 +74,7 @@ public class CountryCodeConverter {
 
     /**
      * Returns the code of the country for the given country name.
+     *
      * @param country the name of the country
      * @return the 3-letter code of the country
      */
@@ -77,6 +84,7 @@ public class CountryCodeConverter {
 
     /**
      * Returns how many countries are included in this code converter.
+     *
      * @return how many countries are included in this code converter.
      */
     public int getNumCountries() {

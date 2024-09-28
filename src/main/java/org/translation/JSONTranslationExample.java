@@ -1,19 +1,19 @@
 package org.translation;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 /**
  * A minimal example of reading and using the JSON data from resources/sample.json.
  */
 public class JSONTranslationExample {
 
-    public static final int CANADA_INDEX = 30; // Constant for Canada's index in the JSON array
+    public static final int CANADA_INDEX = 30;
     private final JSONArray jsonArray;
 
     // Note: CheckStyle is configured so that we are allowed to omit javadoc for constructors
@@ -23,14 +23,14 @@ public class JSONTranslationExample {
             String jsonString = Files.readString(
                     Paths.get(getClass().getClassLoader().getResource("sample.json").toURI()));
             this.jsonArray = new JSONArray(jsonString);
-        }
-        catch (IOException | URISyntaxException ex) {
+        } catch (IOException | URISyntaxException ex) {
             throw new RuntimeException(ex);
         }
     }
 
     /**
      * Returns the Spanish translation of Canada.
+     *
      * @return the Spanish translation of Canada
      */
     public String getCanadaCountryNameSpanishTranslation() {
@@ -41,7 +41,8 @@ public class JSONTranslationExample {
 
     /**
      * Returns the name of the country based on the provided country and language codes.
-     * @param countryCode the country, as its three-letter code.
+     *
+     * @param countryCode  the country, as its three-letter code.
      * @param languageCode the language to translate to, as its two-letter code.
      * @return the translation of country to the given language or "Country not found" if there is no translation.
      */
@@ -60,6 +61,7 @@ public class JSONTranslationExample {
 
     /**
      * Prints the Spanish translation of Canada.
+     *
      * @param args not used
      */
     public static void main(String[] args) {

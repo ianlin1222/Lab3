@@ -26,6 +26,7 @@ public class LanguageCodeConverter {
 
     /**
      * Overloaded constructor which allows us to specify the filename to load the language code data from.
+     *
      * @param filename the name of the file in the resources folder to load the data from
      * @throws RuntimeException if the resource file can't be loaded properly
      */
@@ -48,12 +49,12 @@ public class LanguageCodeConverter {
                 String[] parts = lines.get(i).split("\t");
 
                 if (parts.length >= 2) {
-                    String language = parts[0].trim();  // The first column is the language name
-                    String code = parts[1].trim();      // The second column is the language code
+                    String language = parts[0].trim();
+                    String code = parts[1].trim();
 
                     // Populate the maps correctly
-                    codeToLanguage.put(code, language); // Map language code to language name
-                    languageToCode.put(language, code); // Map language name to language code
+                    codeToLanguage.put(code, language);
+                    languageToCode.put(language, code);
                 } else {
                     System.err.println("Error: Line " + (i + 1) + " does not have the expected format.");
                 }
@@ -66,6 +67,7 @@ public class LanguageCodeConverter {
 
     /**
      * Returns the name of the language for the given language code.
+     *
      * @param code the language code
      * @return the name of the language corresponding to the code
      */
@@ -75,6 +77,7 @@ public class LanguageCodeConverter {
 
     /**
      * Returns the code of the language for the given language name.
+     *
      * @param language the name of the language
      * @return the 2-letter code of the language
      */
@@ -84,6 +87,7 @@ public class LanguageCodeConverter {
 
     /**
      * Returns how many languages are included in this code converter.
+     *
      * @return how many languages are included in this code converter.
      */
     public int getNumLanguages() {
